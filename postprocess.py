@@ -40,8 +40,8 @@ def convert(sfreqs, s21_mag, s21_phase, t_wvf, v_wvf,sampling=1.0):
     # Apply sensor response
     fft_compensated = fft / sensor_complex
 
-    plt.plot(fft_freq,fft.real,fft_freq,fft.imag)
-    plt.show()
+    #plt.semilogx(fft_freq,fft.real,fft_freq,fft.imag)
+    #plt.show()
 
     # Compute inverse fft
     voltage = np.fft.irfft(fft_compensated)

@@ -1,6 +1,7 @@
 from postprocess import load, convert, analyse
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy import integrate
 
 sparams_file = "sensor.csv"
 voltage_file = "passthrough_sensor_10V.csv"
@@ -22,6 +23,13 @@ d = load(voltage_file, ',', skiprows=5)
 time = d[:,3]
 voltage = d[:,4]
 
+integral = integrate.cumtrapz(voltage, time, initial=0)
+integral *= 3e9
+
+analyse("Time", time)
+analyse("integral", integral)
+print(integral)
+
 #plt.semilogx(freqs, mag, freqs, phase)
 #plt.show()
 
@@ -36,8 +44,6 @@ voltage = d[:,4]
 #voltage = np.sin(50.0 * 2.0*np.pi*time) + 0.5*np.sin(80.0 * 2.0*np.pi*time)
 
 analyse("S params frequency points", freqs)
-analyse("Time-domain points", time)
-
 
 #plt.plot(time, voltage, label="transient waveform")
 #plt.show()
@@ -48,10 +54,11 @@ processed_time, processed_voltage = convert(freqs, mag, phase, time, voltage, sa
 
 # Final plot
 original, = plt.plot(time, voltage, label="original curve")
+trap, = plt.plot(time, integral, label="integral method")
 print(type(processed_time[0]))
 print(type(processed_voltage[0]))
-final, = plt.plot(processed_time, processed_voltage, label="final curve")
-plt.legend(handles=[original,final])
+final, = plt.plot(processed_time, processed_voltage, label="frequency method")
+plt.legend(handles=[original,trap,final])
 plt.show()
 
 analyse("Post processed voltage waveform", processed_voltage)
