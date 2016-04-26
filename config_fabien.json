@@ -1,0 +1,28 @@
+{
+  "characterization": {
+    "s_params": {
+        "filename": "./datafiles/Voltage_probe.csv",
+        "delimiter": ";",
+        "skiprows": 3,
+        "plot": true,
+        "columns": {
+          "freq": 0,
+          "S21_mag": 4,
+          "S21_phase": 5
+        }
+      }
+
+  },
+  "output": {
+    "waveform": {
+      "filename" : "./datafiles/400V.csv",
+      "sampling_period" : 1e-10,
+      "delimiter": "\t",
+      "skiprows": 5,
+      "columns": {
+        "time": 0,
+        "voltage": 1
+      }
+    }
+  }
+}

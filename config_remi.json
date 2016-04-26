@@ -1,0 +1,39 @@
+{
+  "characterization": {
+    "s_params": {
+        "filename": "./datafiles/sensor_sparams.csv",
+        "plot": true,
+        "delimiter": " |\t",
+        "skiprows": 3,
+        "columns": {
+          "freq": 0,
+          "S21_mag": 1,
+          "S21_phase": 2
+        }
+      }
+
+  },
+  "output": {
+    "waveform": {
+      "filename" : "./datafiles/transient_waveform_10V.csv",
+      "sampling_period" : 8e-12,
+      "delimiter": ",",
+      "skiprows": 5,
+      "columns": {
+        "time": 3,
+        "voltage": 4
+      }
+    }
+  },
+  "reference" : {
+    "waveform": {
+      "filename": "./datafiles/reference_i_measurement.csv",
+      "delimiter": "\t",
+      "skiprows": 1,
+      "columns": {
+        "time": 0,
+        "current": 2
+      }
+    }
+  }
+}
