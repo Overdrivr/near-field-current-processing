@@ -39,7 +39,7 @@ if __name__ == '__main__':
         plt.title("S21 characterization of current sensor")
         plt.ylabel("S21 magnitude (dB)")
         plt.subplot(2, 1, 2)
-        plt.semilogx(freqs, phase)
+        plt.semilogx(freqs, phase * 180 / np.pi)
         plt.ylabel("S21 phase (degrees)")
         plt.xlabel("Frequency (Hz)")
         plt.show()
@@ -51,6 +51,13 @@ if __name__ == '__main__':
 
     time    = d[:,cfg['output']['waveform']['columns']['time']]
     voltage = d[:,cfg['output']['waveform']['columns']['voltage']]
+
+    if cfg['output']['waveform']['plot']:
+        plt.plot(time, voltage)
+        plt.ylabel("Voltage (V)")
+        plt.xlabel("Time (s)")
+        plt.title("Raw sensor output waveform")
+        plt.show()
 
     # Perform post-processing of the transient voltage waveform
     processed_time, processed_voltage = convert(freqs, mag, phase, time, voltage,
@@ -72,14 +79,23 @@ if __name__ == '__main__':
 
         ref_time    = d[:,cfg['reference']['waveform']['columns']['time']]
         ref_current = d[:,cfg['reference']['waveform']['columns']['current']]
+
+        if cfg['reference']['waveform']['plot']:
+            plt.plot(ref_time, ref_current)
+            plt.ylabel("Current (A)")
+            plt.xlabel("Time (s)")
+            plt.title("Reference current waveform")
+            plt.show()
     else:
         ref_time = [0]
         ref_current = [0]
 
     # Final plot
-    original, = plt.plot(ref_time, ref_current, label="original curve")
-    trap, = plt.plot(time, integral, label="integral method")
+    original, = plt.plot(ref_time, ref_current, label="reference")
+    trap, = plt.plot(time, integral, label="integral post-processing")
     final, = plt.plot(processed_time, processed_voltage, label="frequency method")
+    #plt.title("Comparison of reference with time-domain post-processing")
+    #plt.title("Comparison of reference with frequency-domain post-processing")
     plt.legend(handles=[original,trap,final])
     plt.show()
 

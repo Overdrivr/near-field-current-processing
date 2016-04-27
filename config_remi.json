@@ -19,6 +19,7 @@
       "sampling_period" : 8e-12,
       "delimiter": ",",
       "skiprows": 5,
+      "plot": true,
       "columns": {
         "time": 3,
         "voltage": 4
@@ -30,6 +31,7 @@
       "filename": "./datafiles/reference_i_measurement.csv",
       "delimiter": "\t",
       "skiprows": 1,
+      "plot": true,
       "columns": {
         "time": 0,
         "current": 2

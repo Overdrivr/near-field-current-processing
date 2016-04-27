@@ -19,6 +19,7 @@
       "sampling_period" : 1e-10,
       "delimiter": "\t",
       "skiprows": 5,
+      "plot": true,
       "columns": {
         "time": 0,
         "voltage": 1
