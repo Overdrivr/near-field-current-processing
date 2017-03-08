@@ -1,0 +1,42 @@
+{
+  "characterization": {
+    "s_params": {
+        "filename": "./datafiles/sensor_sparams.csv",
+        "plot": true,
+        "delimiter": " |\t",
+        "skiprows": 3,
+        "columns": {
+          "freq": 0,
+          "S21_mag": 1,
+          "S21_phase": 2
+        }
+      }
+
+  },
+  "output": {
+    "waveform": {
+      "filename" : "./datafiles/mes_n480V_Ch2.csv",
+      "sampling_period" : 8e-12,
+      "delimiter": ",",
+      "skiprows": 5,
+      "plot": false,
+      "columns": {
+        "time": 3,
+        "voltage": 4
+      },
+      "xrange": [-100e-9, 300e-9]
+    }
+  },
+  "reference" : {
+    "waveform": {
+      "filename": "./datafiles/simulation_TLP_minus480V.csv",
+      "delimiter": ",",
+      "skiprows": 14,
+      "plot": false,
+      "columns": {
+        "time": 0,
+        "current": 1
+      }
+    }
+  }
+}
