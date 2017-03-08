@@ -1,4 +1,4 @@
-from postprocess import load, convert, analyse
+from postprocess import load, convert, analyse, xslice, check_constant_sample_rate
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy import integrate
@@ -52,6 +52,14 @@ if __name__ == '__main__':
     time    = d[:,cfg['output']['waveform']['columns']['time']]
     voltage = d[:,cfg['output']['waveform']['columns']['voltage']]
 
+    if not check_constant_sample_rate(time):
+        raise ValueError('Sample rate for ' + cfg['output']['waveform']['filename'] + ' not constant')
+
+    if 'xrange' in cfg['output']['waveform']:
+        xmin = cfg['output']['waveform']['xrange'][0]
+        xmax = cfg['output']['waveform']['xrange'][1]
+        time, voltage = xslice(time, voltage, xmin, xmax)
+
     if cfg['output']['waveform']['plot']:
         plt.plot(time, voltage)
         plt.ylabel("Voltage (V)")
@@ -100,3 +108,5 @@ if __name__ == '__main__':
     plt.show()
 
     np.savetxt("output.csv", [processed_time, processed_voltage], delimiter='\t', header='time (s)\tV(t)')
+    np.savetxt("output_integral.csv", [time, integral], delimiter='\t', header='time (s)\tV(t)')
+    
