@@ -41,3 +41,30 @@ def convert(sfreqs, s21_mag, s21_phase, t_wvf, v_wvf,sampling=1.0):
     voltage -= voltage[0]
 
     return time, voltage
+
+def xslice(x, y, xmin, xmax):
+    arr = np.vstack((x, y)).T
+    arr = np.array([e for e in arr if e[0] >= xmin and e[0] <= xmax])
+    return arr.T[0], arr.T[1]
+
+def check_constant_sample_rate(t):
+    intervals = t[1:] - t[:-1]
+    for interval in intervals:
+        if not np.isclose(interval, intervals[0]):
+            return False
+    return True
+
+def check_strictly_monotonic(t):
+    assert len(t) == len(y)
+    toremove = [i for i in range(len(t) - 1) if np.isclose(t[i],t[i+1])]
+    return len(toremove) == 0
+
+def make_strictly_monotonic(t, y):
+    assert len(t) == len(y)
+    tokeep = [i for i in range(len(t) - 1) if not np.isclose(t[i],t[i+1])]
+    t = np.take(t, tokeep)
+    y = np.take(y, tokeep)
+    return t, y
+    
+if __name__ == '__main__':
+    print(xslice(np.arange(10),np.linspace(0,1,10), 3, 5))
